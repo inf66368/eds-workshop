@@ -255,3 +255,16 @@ main .section.highlight {
   margin: 0;
   padding: 40px 0;
 }
+
+main .form form .field-wrapper label {
+  font-weight: 600;
+}
+
+main .form form .text-wrapper > input {
+border: 1px solid #7f1300;
+}
+
+main .form form .text-wrapper > input:focus {
+border: 1px solid #7f1300;
+background-color: rgba(210, 210, 210, 0.484);
+}
