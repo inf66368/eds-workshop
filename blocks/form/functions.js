@@ -67,7 +67,7 @@ function maskOtpText(mobileNumber) {
     return "We've sent a 6-digit OTP to your registered mobile number " + mobileNumber;
   }
 
-  const number = mobileNumber.toString();
+  let number = mobileNumber.toString();
 
   number = "*".repeat(5) + number.substring(5);
 
