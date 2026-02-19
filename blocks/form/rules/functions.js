@@ -17,7 +17,7 @@
  * Adobe permits you to use and modify this file solely in accordance with
  * the terms of the Adobe license agreement accompanying it.
  ************************************************************************ */
-import { getSubmitBaseUrl } from '../constant.js';
+import { getSubmitBaseUrl } from "../constant.js";
 /**
  * Prefixes the URL with the context path.
  * @param {string} url - The URL to externalize.
@@ -39,7 +39,9 @@ function externalize(url) {
 function validateURL(url) {
   try {
     const validatedUrl = new URL(url, window.location.href);
-    return (validatedUrl.protocol === 'http:' || validatedUrl.protocol === 'https:');
+    return (
+      validatedUrl.protocol === "http:" || validatedUrl.protocol === "https:"
+    );
   } catch (err) {
     return false;
   }
@@ -52,7 +54,7 @@ function validateURL(url) {
  * @memberof module:FormView~customFunctions
  */
 function toObject(str) {
-  if (typeof str === 'string') {
+  if (typeof str === "string") {
     try {
       return JSON.parse(str);
     } catch (e) {
@@ -73,16 +75,16 @@ function navigateTo(destinationURL, destinationType) {
   const windowParam = window;
   let arg = null;
   switch (destinationType) {
-    case '_newwindow':
-      param = '_blank';
-      arg = 'width=1000,height=800';
+    case "_newwindow":
+      param = "_blank";
+      arg = "width=1000,height=800";
       break;
   }
   if (!param) {
     if (destinationType) {
       param = destinationType;
     } else {
-      param = '_blank';
+      param = "_blank";
     }
   }
   if (validateURL(destinationURL)) {
@@ -102,9 +104,17 @@ function defaultErrorHandler(response, headers, globals) {
     response.validationErrors?.forEach((violation) => {
       if (violation.details) {
         if (violation.fieldName) {
-          globals.functions.markFieldAsInvalid(violation.fieldName, violation.details.join('\n'), { useQualifiedName: true });
+          globals.functions.markFieldAsInvalid(
+            violation.fieldName,
+            violation.details.join("\n"),
+            { useQualifiedName: true },
+          );
         } else if (violation.dataRef) {
-          globals.functions.markFieldAsInvalid(violation.dataRef, violation.details.join('\n'), { useDataRef: true });
+          globals.functions.markFieldAsInvalid(
+            violation.dataRef,
+            violation.details.join("\n"),
+            { useDataRef: true },
+          );
         }
       }
     });
@@ -126,10 +136,10 @@ function defaultSubmitSuccessHandler(globals) {
       window.location.href = encodeURI(submitSuccessResponse.redirectUrl);
     } else if (submitSuccessResponse.thankYouMessage) {
       const formContainerElement = document.getElementById(`${form.$id}`);
-      const thankYouMessage = document.createElement('div');
-      thankYouMessage.setAttribute('class', 'tyMessage');
-      thankYouMessage.setAttribute('tabindex', '-1');
-      thankYouMessage.setAttribute('role', 'alertdialog');
+      const thankYouMessage = document.createElement("div");
+      thankYouMessage.setAttribute("class", "tyMessage");
+      thankYouMessage.setAttribute("tabindex", "-1");
+      thankYouMessage.setAttribute("role", "alertdialog");
       thankYouMessage.innerHTML = submitSuccessResponse.thankYouMessage;
       formContainerElement.replaceWith(thankYouMessage);
       thankYouMessage.focus();
@@ -171,36 +181,44 @@ async function fetchCaptchaToken(globals) {
 
     try {
       const captcha = globals.form.$captcha;
-      if (captcha.$captchaProvider === 'turnstile') {
-        const turnstileContainer = document.getElementsByClassName('cmp-adaptiveform-turnstile__widget')[0];
+      if (captcha.$captchaProvider === "turnstile") {
+        const turnstileContainer = document.getElementsByClassName(
+          "cmp-adaptiveform-turnstile__widget",
+        )[0];
         const turnstileParameters = {
           sitekey: captcha.$captchaSiteKey,
           callback: successCallback,
-          'error-callback': errorCallback,
+          "error-callback": errorCallback,
         };
         if (turnstile != undefined) {
-          const widgetId = turnstile.render(turnstileContainer, turnstileParameters);
+          const widgetId = turnstile.render(
+            turnstileContainer,
+            turnstileParameters,
+          );
           if (widgetId) {
             turnstile.execute(widgetId);
           } else {
-            reject({ error: 'Failed to render turnstile captcha' });
+            reject({ error: "Failed to render turnstile captcha" });
           }
         } else {
-          reject({ error: 'Turnstile captcha not loaded' });
+          reject({ error: "Turnstile captcha not loaded" });
         }
       } else {
-        const siteKey = captcha?.$properties['fd:captcha']?.config?.siteKey;
-        const captchaElementName = captcha.$name.replaceAll('-', '_');
-        let captchaPath = captcha?.$properties['fd:path'];
-        const index = captchaPath.indexOf('/jcr:content');
-        let formName = '';
+        const siteKey = captcha?.$properties["fd:captcha"]?.config?.siteKey;
+        const captchaElementName = captcha.$name.replaceAll("-", "_");
+        let captchaPath = captcha?.$properties["fd:path"];
+        const index = captchaPath.indexOf("/jcr:content");
+        let formName = "";
         if (index > 0) {
           captchaPath = captchaPath.substring(0, index);
-          formName = captchaPath.substring(captchaPath.lastIndexOf('/') + 1).replaceAll('-', '_');
+          formName = captchaPath
+            .substring(captchaPath.lastIndexOf("/") + 1)
+            .replaceAll("-", "_");
         }
         const actionName = `submit_${formName}_${captchaElementName}`;
         grecaptcha.enterprise.ready(() => {
-          grecaptcha.enterprise.execute(siteKey, { action: actionName })
+          grecaptcha.enterprise
+            .execute(siteKey, { action: actionName })
             .then((token) => resolve(token))
             .catch((error) => reject(error));
         });
@@ -227,37 +245,66 @@ async function fetchCaptchaToken(globals) {
  */
 function dateToDaysSinceEpoch(date) {
   let dateObj;
-  if (typeof date === 'string') {
+  if (typeof date === "string") {
     dateObj = new Date(date);
-  } else if (typeof date === 'number') {
+  } else if (typeof date === "number") {
     return Math.floor(date);
   } else if (date instanceof Date) {
     dateObj = date;
   } else {
-    throw new Error('Invalid date input');
+    throw new Error("Invalid date input");
   }
 
   // Validate that date is valid after parsing
   if (isNaN(dateObj.getTime())) {
-    throw new Error('Invalid date input');
+    throw new Error("Invalid date input");
   }
   return Math.floor(dateObj.getTime() / (1000 * 60 * 60 * 24));
 }
 
 /**
-* Masks the first 5 digits of the mobile number with *
-* @param {*} mobileNumber
-* @returns {string} returns the mobile number with first 5 digits masked
-*/
+ * Masks the first 5 digits of the mobile number with *
+ * @param {*} mobileNumber
+ * @returns {string} returns the mobile number with first 5 digits masked
+ */
 function maskMobNumber(mobileNumber) {
-if (!mobileNumber) {
-return '';
-}
-const value = mobileNumber.toString();
-// Mask first 5 digits and keep the rest
-return ` ${'*'.repeat(5)}${value.substring(5)}`;
+  if (!mobileNumber) {
+    return "";
+  }
+  const value = mobileNumber.toString();
+  // Mask first 5 digits and keep the rest
+  return ` ${"*".repeat(5)}${value.substring(5)}`;
 }
 
+/**
+ * Masks the first 5 digits of the mobile number with *
+ * @param {*} mobileNumber
+ * @returns {string} returns text with predefined text and first 5 digits masked
+ */
+function maskOtpText(mobileNumber) {
+  if (!mobileNumber) {
+    return "We've sent a 6-digit OTP to your registered mobile number " + mobileNumber;
+  }
+
+  const number = mobileNumber.toString();
+
+  number = "*".repeat(5) + number.substring(5);
+
+  return `We've sent a 6-digit OTP to your registered mobile number ${number}`;
+}
+
+/**
+ * Validates if a given string is a valid mobile number.
+ * Accepts mobile numbers in Indian format with optional country code (0 or 91).
+ * Valid numbers must start with 6-9 and contain 10 digits after the prefix.
+ * 
+ * @param {string} mobileNumber - The mobile number to validate
+ * @returns {boolean} True if the mobile number is valid, false otherwise
+ */
+function validateMobileNumber(mobileNumber) {
+  const numberPattern = /^(0|91)?[6-9]\d{9}$/;
+  return numberPattern.test(mobileNumber);
+}
 
 export {
   externalize,
@@ -269,5 +316,7 @@ export {
   defaultSubmitErrorHandler,
   fetchCaptchaToken,
   dateToDaysSinceEpoch,
-  maskMobNumber
+  maskMobNumber,
+  maskOtpText,
+  validateMobileNumber
 };
