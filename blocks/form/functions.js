@@ -61,7 +61,7 @@ function maskMobileNumber(mobileNumber) {
  * @name maskOtpText Mask Number in OTP Text
  * @param {*} mobileNumber
  * @returns {string} returns text with predefined text and first 5 digits masked
- */
+
 function maskOtpText(mobileNumber) {
   if (!mobileNumber) {
     return "We've sent a 6-digit OTP to your registered mobile number " + mobileNumber;
@@ -73,6 +73,7 @@ function maskOtpText(mobileNumber) {
 
   return `We've sent a 6-digit OTP to your registered mobile number ${number}`;
 }
+ */
 
 /**
  * Validates if a given string is a valid mobile number.
@@ -81,13 +82,14 @@ function maskOtpText(mobileNumber) {
  * @name validateMobileNumber Validate Number
  * @param {string} mobileNumber - The mobile number to validate
  * @returns {boolean} True if the mobile number is valid, false otherwise
- */
+ 
 function validateMobileNumber(mobileNumber) {
   const numberPattern = /^(0|91)?[6-9]\d{9}$/;
   return numberPattern.test(mobileNumber);
 }
+*/
 
 // eslint-disable-next-line import/prefer-default-export
 export {
-  getFullName, days, submitFormArrayToString, maskMobileNumber, maskOtpText, validateMobileNumber
+  getFullName, days, submitFormArrayToString, maskMobileNumber
 };
