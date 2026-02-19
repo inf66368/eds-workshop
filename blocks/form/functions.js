@@ -89,5 +89,5 @@ function validateMobileNumber(mobileNumber) {
 
 // eslint-disable-next-line import/prefer-default-export
 export {
-  getFullName, days, submitFormArrayToString, maskMobileNumber,
+  getFullName, days, submitFormArrayToString, maskMobileNumber, maskOtpText, validateMobileNumber
 };
