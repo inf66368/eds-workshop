@@ -276,36 +276,6 @@ function maskMobNumber(mobileNumber) {
   return ` ${"*".repeat(5)}${value.substring(5)}`;
 }
 
-/**
- * Masks the first 5 digits of the mobile number with *
- * @param {*} mobileNumber
- * @returns {string} returns text with predefined text and first 5 digits masked
- */
-function maskOtpText(mobileNumber) {
-  if (!mobileNumber) {
-    return "We've sent a 6-digit OTP to your registered mobile number " + mobileNumber;
-  }
-
-  const number = mobileNumber.toString();
-
-  number = "*".repeat(5) + number.substring(5);
-
-  return `We've sent a 6-digit OTP to your registered mobile number ${number}`;
-}
-
-/**
- * Validates if a given string is a valid mobile number.
- * Accepts mobile numbers in Indian format with optional country code (0 or 91).
- * Valid numbers must start with 6-9 and contain 10 digits after the prefix.
- * 
- * @param {string} mobileNumber - The mobile number to validate
- * @returns {boolean} True if the mobile number is valid, false otherwise
- */
-function validateMobileNumber(mobileNumber) {
-  const numberPattern = /^(0|91)?[6-9]\d{9}$/;
-  return numberPattern.test(mobileNumber);
-}
-
 export {
   externalize,
   validateURL,
