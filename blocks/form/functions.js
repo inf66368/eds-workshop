@@ -106,11 +106,11 @@ function monthlyInterestRate(annualRate) {
  */
 function calculateEMI(principal, tenure, roi) {
 
-  if (roi === 0) return principal / tenure;
+  if (roi === 0) return Math.ceil(principal / tenure);
 
   const R = 1 + roi;
   const expo = R ** tenure;
-  let emi = math.ceil((principal * roi * expo) / (expo - 1));
+  let emi = Math.ceil((principal * roi * expo) / (expo - 1));
 
   return emi;
 }
