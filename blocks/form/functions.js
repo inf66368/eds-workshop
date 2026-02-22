@@ -110,7 +110,7 @@ function calculateEMI(principal, tenure, roi) {
 
   const R = 1 + roi;
   const expo = R ** tenure;
-  let emi = Math.ceil((principal * roi * expo) / (expo - 1));
+  let emi = Math.round((principal * roi * expo) / (expo - 1));
 
   return emi;
 }
