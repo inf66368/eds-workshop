@@ -17,10 +17,10 @@ function submitFormArrayToString(globals) {
   const data = globals.functions.exportData();
   Object.keys(data).forEach((key) => {
     if (Array.isArray(data[key])) {
-      data[key] = data[key].join(',');
+      data[key] = data[key].join(",");
     }
   });
-  globals.functions.submitForm(data, true, 'application/json');
+  globals.functions.submitForm(data, true, "application/json");
 }
 
 /**
@@ -30,8 +30,8 @@ function submitFormArrayToString(globals) {
  * @returns {number} returns the number of days between two dates
  */
 function days(endDate, startDate) {
-  const start = typeof startDate === 'string' ? new Date(startDate) : startDate;
-  const end = typeof endDate === 'string' ? new Date(endDate) : endDate;
+  const start = typeof startDate === "string" ? new Date(startDate) : startDate;
+  const end = typeof endDate === "string" ? new Date(endDate) : endDate;
 
   // return zero if dates are valid
   if (Number.isNaN(start.getTime()) || Number.isNaN(end.getTime())) {
@@ -43,17 +43,17 @@ function days(endDate, startDate) {
 }
 
 /**
-* Masks the first 5 digits of the mobile number with *
-* @param {*} mobileNumber
-* @returns {string} returns the mobile number with first 5 digits masked
-*/
+ * Masks the first 5 digits of the mobile number with *
+ * @param {*} mobileNumber
+ * @returns {string} returns the mobile number with first 5 digits masked
+ */
 function maskMobileNumber(mobileNumber) {
   if (!mobileNumber) {
-    return '';
+    return "";
   }
   const value = mobileNumber.toString();
   // Mask first 5 digits and keep the rest
-  return ` ${'*'.repeat(5)}${value.substring(5)}`;
+  return ` ${"*".repeat(5)}${value.substring(5)}`;
 }
 
 /**
@@ -87,7 +87,42 @@ function validateMobileNumber(mobileNumber) {
   return numberPattern.test(mobileNumber);
 }
 
+
+/**
+ * Calculates the monthly interest rate from an annual interest rate.
+ * @param {number} annualRate - The annual interest rate as a percentage
+ * @returns {number} The monthly interest rate as a decimal
+ */
+function monthlyInterestRate(annualRate) {
+  return annualRate / (12 * 100);
+}
+
+/**
+ * Calculate Equated Monthly Installment (EMI).
+ * @param {number} principal - Principal (loan amount), must be > 0
+ * @param {number} tenure - Number of periods (e.g., months), positive integer
+ * @param {number} roi - Monthly interest rate
+ * @returns {number} - EMI per period
+ */
+function calculateEMI(principal, tenure, roi) {
+
+  if (roi === 0) return principal / tenure;
+
+  const R = 1 + roi;
+  const expo = R ** tenure;
+  let emi = (principal * roi * expo) / (expo - 1);
+
+  return emi;
+}
+
 // eslint-disable-next-line import/prefer-default-export
 export {
-  getFullName, days, submitFormArrayToString, maskMobileNumber, maskOtpText, validateMobileNumber
-};
+  getFullName,
+  days,
+  submitFormArrayToString,
+  maskMobileNumber,
+  maskOtpText,
+  validateMobileNumber,
+  monthlyInterestRate,
+  calculateEMI
+}
