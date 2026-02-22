@@ -100,9 +100,9 @@ function monthlyInterestRate(annualRate) {
 /**
  * Calculate Equated Monthly Installment (EMI).
  * @param {number} principal - Principal (loan amount), must be > 0
- * @param {number} tenure - Number of periods (e.g., months), positive integer
+ * @param {number} tenure - Number of months
  * @param {number} roi - Monthly interest rate
- * @returns {number} - EMI per period
+ * @returns {number} - EMI per month
  */
 function calculateEMI(principal, tenure, roi) {
 
@@ -110,7 +110,7 @@ function calculateEMI(principal, tenure, roi) {
 
   const R = 1 + roi;
   const expo = R ** tenure;
-  let emi = (principal * roi * expo) / (expo - 1);
+  let emi = math.ceil((principal * roi * expo) / (expo - 1));
 
   return emi;
 }
