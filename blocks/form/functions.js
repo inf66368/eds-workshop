@@ -153,6 +153,30 @@ function formatTenure(value) {
     return `${value} months`;
 }
 
+/**
+ * Formats a text value by appending additional text to it.
+ * @name formatText Format Text
+ * @param {string|number} value - The value to format
+ * @param {string} appendText - The text to append
+ * @returns {string} The appended text with the value
+ */
+function formatText(value, appendText) {
+  if (value && value !== undefined) {
+    return `0${appendText}`;
+  }
+  return `${value}${appendText}`;
+}
+
+/**
+ * Formats a PAN by masking first 5 characters.
+ * @name formatPanNumber Format PAN
+ * @param {string} panNumber - The PAN number
+ * @returns {string} The formatted PAN with *
+ */
+function formatPanNumber(panNumber) {
+  return `***** *${panNumber.slice(6)}`.toUpperCase();
+}
+
 // eslint-disable-next-line import/prefer-default-export
 export {
   getFullName,
@@ -165,5 +189,7 @@ export {
   calculateEMI,
   formatINRCurrency,
   formatIndianNumber,
-  formatTenure
+  formatTenure,
+  formatText,
+  formatPanNumber
 }
