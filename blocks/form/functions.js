@@ -143,6 +143,16 @@ function formatINRCurrency(value) {
   });
 }
 
+/**
+ * Append "months" in number.
+ * @name formatTenure Format Tenure
+ * @param {number} value - numeric value to format
+ * @returns {string} Formatted string with "months"
+ */
+function formatTenure(value) {
+    return `${value} months`;
+}
+
 // eslint-disable-next-line import/prefer-default-export
 export {
   getFullName,
@@ -154,5 +164,6 @@ export {
   monthlyInterestRate,
   calculateEMI,
   formatINRCurrency,
-  formatIndianNumber
+  formatIndianNumber,
+  formatTenure
 }
