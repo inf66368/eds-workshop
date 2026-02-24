@@ -154,15 +154,16 @@ function formatTenure(value) {
 }
 
 /**
- * Formats a text value by appending additional text to it.
+ * Formats a text value by appending text to it.
  * @name formatText Format Text
  * @param {string|number} value - The value to format
+ * @param {boolean} space - space between value & appended text
  * @param {string} appendText - The text to append
  * @returns {string} The appended text with the value
  */
-function formatText(value, appendText) {
-  if (value && value !== undefined) {
-    return `0${appendText}`;
+function formatText(value, space, appendText) {
+  if(space){
+    return `${value} ${appendText}`;
   }
   return `${value}${appendText}`;
 }
